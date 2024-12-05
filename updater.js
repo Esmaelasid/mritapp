@@ -26,7 +26,7 @@ const { app } = require("electron");
   const LOCAL_VERSION_FILE = path.join(app.getAppPath(), "version.json");
   // const LOCAL_VERSION_FILE ="/version.json"
   const REMOTE_VERSION_URL =
-  "https://raw.githubusercontent.com/MritAseed/MRIT/refs/heads/main/version.json";
+  "https://raw.githubusercontent.com/Esmaelasid/mritapp/refs/heads/main/version.json";
 
 // ==================
 // =="asar": false,==
