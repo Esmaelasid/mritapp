@@ -1,6 +1,6 @@
 const { app, BrowserWindow, ipcMain, dialog } = require("electron");
 const path = require("path");
-const { checkForUpdates } = require("./update"); // استيراد التحديثات
+const { checkForUpdates } = require("./updater"); // استيراد التحديثات
 
 // المتغيرات لتخزين النوافذ
 let mainWindow;

@@ -3,10 +3,30 @@ const fs = require("fs"); // نظام الملفات
 const path = require("path"); // التعامل مع المسارات
 const { dialog } = require("electron"); // لإظهار رسائل للمستخدم
 const { app } = require("electron");
+// مسارات الملفات
+// const LOCAL_VERSION_FILE = path.join(
+//   app.getAppPath(),
+//   "public",
+//   "version.json"
+// );
 
-  const LOCAL_VERSION_FILE = path.join(process.resourcesPath, "version.json");
+// const LOCAL_VERSION_FILE = isDev ? path.join(app.getAppPath(), "version.json") :
+// path.join(process.resourcesPath(), "version.json")
+// const LOCAL_VERSION_FILE = path.join(__dirname, "version.json"); // مسار ملف الإصدار المحلي
+/* if (!fs.existsSync(LOCAL_VERSION_FILE)) {
+  dialog.showMessageBox({
+    type: "error",
+    title: "خطأ",
+    message: `ملف الإصدار المحلي (version.json) غير موجود. تأكد من إضافته أثناء بناء التطبيق.`,
+  });
+  return; // قم بإنهاء الوظيفة إذا كان الملف مفقودًا
+} */
+  // const LOCAL_VERSION_FILE = path.join(process.resourcesPath, "version.json");
+
+  const LOCAL_VERSION_FILE = path.join(app.getAppPath(), "version.json");
+  // const LOCAL_VERSION_FILE ="/version.json"
   const REMOTE_VERSION_URL =
-  "https://raw.githubusercontent.com/Esmaelasid/mritapp/refs/heads/main/version.json";
+  "https://raw.githubusercontent.com/MritAseed/MRIT/refs/heads/main/version.json";
 
 // ==================
 // =="asar": false,==
