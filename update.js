@@ -1,20 +1,16 @@
 const axios = require("axios"); // مكتبة لتحميل الملفات
 const fs = require("fs"); // نظام الملفات
-// const path = require("path"); // التعامل مع المسارات
+const path = require("path"); // التعامل مع المسارات
 const { dialog } = require("electron"); // لإظهار رسائل للمستخدم
-// const { app } = require("electron");
-// مسارات الملفات
-const path = require("path");
 const { app } = require("electron");
 
-// تعديل المسار للوصول إلى ملف الإصدار
-const LOCAL_VERSION_FILE = path.join(process.resourcesPath, "version.json");
-
-
-
-  // const LOCAL_VERSION_FILE = path.join(app.getAppPath(), "version.json");
+  const LOCAL_VERSION_FILE = path.join(process.resourcesPath, "version.json");
   const REMOTE_VERSION_URL =
-  "https://raw.githubusercontent.com/Esmaelasid/mritapp/refs/heads/main/version.json";
+  "https://raw.githubusercontent.com/MritAseed/MRIT/refs/heads/main/version.json";
+
+// ==================
+// =="asar": false,==
+// ==================
 
 // وظيفة لتنزيل الملفات
 async function updateFiles(files) {

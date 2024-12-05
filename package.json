@@ -7,9 +7,6 @@
     "build": "electron-builder"
   },
   "build": {
-    "asar": {
-      "unpack": "version.json"
-    },
     "win": {
       "icon": "astaas/icon.ico"
     }

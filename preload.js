@@ -1,3 +1,4 @@
+
 const { contextBridge, ipcRenderer } = require("electron");
 
 contextBridge.exposeInMainWorld("electronAPI", {
@@ -5,4 +6,5 @@ contextBridge.exposeInMainWorld("electronAPI", {
   showAbout: () => ipcRenderer.invoke("show-about"), // استدعاء نافذة "حول البرنامج"
   checkForUpdates: () => ipcRenderer.invoke("check-updates"), // التحقق من التحديثات
 });
+
 
