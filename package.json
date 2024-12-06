@@ -1,6 +1,6 @@
 {
-  "name": "mrit",
-  "version": "1.2.4",
+  "name": "MRIT",
+  "version": "1.5.0",
   "main": "index.js",
   "scripts": {
     "start": "electron .",
