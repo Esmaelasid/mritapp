@@ -1,27 +1,29 @@
 .box form {
     width: 100%;
-    display: flex
-;
+    display: flex;
     flex-wrap: wrap;
     height: 80%;
     align-items: center;
     align-content: space-around;
 }
-.box form > div {
+
+.box form>div {
     width: 100%;
-    display: flex
-;
+    display: flex;
     justify-content: flex-start;
     align-items: flex-start;
     height: 35%;
 
 }
+
 .box label {
     width: 33%;
 }
+
 .box input {
     width: 63%;
 }
+
 .tables table thead th:first-child {
     width: 25%;
 }
@@ -33,6 +35,7 @@
 .tables table thead th:nth-child(3) {
     width: 45%;
 }
+
 .tables table thead th:last-child {
     width: 10%;
 }
@@ -44,6 +47,7 @@ table tbody tr td:first-child {
     text-align: center;
     border: 1px solid white;
 }
+
 table tbody tr td:first-child span {
     color: white;
     transition: 0.2s;
@@ -51,22 +55,27 @@ table tbody tr td:first-child span {
     margin: 0 4%;
     font-size: 14px;
 }
+
 table tbody tr td:nth-child(2) {
     width: 20%;
     font-size: 12px;
 }
+
 table tbody tr td:nth-child(3) {
     width: 45%;
     font-size: 12px;
     text-align: start;
     padding-right: 2px;
 }
+
 table tbody tr td:last-child {
-    font-size: 16px;  
-} 
+    font-size: 16px;
+}
+
 .fnsh-icon {
     color: #009688;
 }
+
 .info-icon:hover {
     /* color: green; */
     color: #ffc107;
@@ -77,13 +86,15 @@ table tbody tr td:last-child {
     color: #fb8c00;
     cursor: pointer;
 }
+
 .delivery-icon:hover {
     background-color: var(--back-button-color);
     width: 100%;
     padding: 2% 28%;
     color: var(--background-color);
 }
-.search-container { 
+
+.search-container {
     display: flex;
     align-items: center;
     margin-bottom: 0px;
@@ -96,11 +107,19 @@ table tbody tr td:last-child {
     border-bottom: none;
     padding: 6px 6px 10px;
     z-index: 1;
+    border-top-left-radius: 6px;
+    transition: 0.3s;
     height: 50%;
     max-width: 30%;
-    }
-.search-container i { cursor: pointer; margin-left: 10px; font-size: 1.5em; }
-.search-input { 
+}
+
+.search-container i {
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 1.5em;
+}
+
+.search-input {
     display: none;
     font-size: 12px;
     font-weight: 600;
@@ -110,12 +129,13 @@ table tbody tr td:last-child {
     border: 2px solid var(--back-button-color);
     padding: 4px 5px;
     outline: none;
-    width: 100px; 
+    width: 100px;
     /* padding: 5px; border: 1px solid #ddd; border-radius: 4px;  */
 }
+
 /* button { margin: 5px; } */
 
- table button {
+table button {
     padding: 4px 0px;
     font-size: 14px;
     border: 1px solid var(--border-color);
@@ -128,27 +148,31 @@ table tbody tr td:last-child {
     cursor: pointer;
     box-shadow: 0 0 2px 1px var(--bordr-buttom-color);
 }
-.modal > p {
+
+.modal>p {
     width: 100%;
-    display: flex
-;
+    display: flex;
     flex-wrap: wrap;
 
 }
+
 .overlay-none {
     display: none;
 }
+
 .overlay {
     display: flex;
 }
+
 .modal strong {
     width: 30%;
     /* background-color: white; */
     padding: 2px;
     text-align: start;
     font-size: 14px;
-     /* border: 2px solid var(--back-button-color); */
+    /* border: 2px solid var(--back-button-color); */
 }
+
 strong p {
     display: inline;
     margin-right: 5px;
@@ -156,6 +180,7 @@ strong p {
     color: red;
     font-weight: 800;
 }
+
 .modal span {
     width: 60%;
     background-color: white;
