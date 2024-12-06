@@ -1,5 +1,5 @@
 {
-  "version": "1.2.8",
+  "version": "1.2.9",
   "files": [
 
     {
@@ -23,10 +23,16 @@
       "path": "public/search.html",
       "url": "https://raw.githubusercontent.com/Esmaelasid/mritapp/refs/heads/main/public/search.html"
     },
+
+    {
+      "path": "public/about.html",
+      "url": "https://raw.githubusercontent.com/Esmaelasid/mritapp/refs/heads/main/public/about.html"
+    },
     {
       "path": "public/backup.html",
       "url": "https://raw.githubusercontent.com/Esmaelasid/mritapp/refs/heads/main/public/backup.html"
     },
+
     {
       "path": "public/products.html",
       "url": "https://raw.githubusercontent.com/Esmaelasid/mritapp/refs/heads/main/public/products.html"
@@ -36,16 +42,13 @@
       "url": "https://raw.githubusercontent.com/Esmaelasid/mritapp/refs/heads/main/public/workTypes.html"
     },
     {
-      "path": "public/about.html",
-      "url": "https://raw.githubusercontent.com/Esmaelasid/mritapp/refs/heads/main/public/about.html"
+      "path": "public/Receiv_deliver_work.html",
+      "url": "https://raw.githubusercontent.com/Esmaelasid/mritapp/refs/heads/main/public/Receiv_deliver_work.html"
     },
+
     {
-      "path": "public/exching.html",
-      "url": "https://raw.githubusercontent.com/Esmaelasid/mritapp/refs/heads/main/public/exching.html"
-    },
-    {
-      "path": "public/mjmj.html",
-      "url": "https://raw.githubusercontent.com/Esmaelasid/mritapp/refs/heads/main/public/mjmj.html"
+      "path": "public/Employees/employee.html",
+      "url": "https://raw.githubusercontent.com/Esmaelasid/mritapp/refs/heads/main/public/Employees/employee.html"
     },
     {
       "path": "public/css/three.css",

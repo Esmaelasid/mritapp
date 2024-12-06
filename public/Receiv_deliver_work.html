@@ -5,14 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>استلام وتسليم الأعمال</title>
   <style>
-    /* body { font-family: Arial, sans-serif; margin: 20px; } */
-    /* table { width: 100%; border-collapse: collapse; margin-top: 20px; } */
-    /* table, th, td { border: 1px solid #ddd; text-align: center; } */
-    /* th, td { padding: 10px; } */
-    .modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border: 1px solid #ccc; box-shadow: 0px 5px 10px rgba(0,0,0,0.3); }
+    /* .modal { display: block; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border: 1px solid #ccc; box-shadow: 0px 5px 10px rgba(0,0,0,0.3); }
     .modal.active { display: block; }
     .modal-buttons { margin-top: 10px; text-align: right; }
-    button { margin: 5px; }
+    button { margin: 5px; } */
   </style>
   <link rel="stylesheet" href="css/all.min.css">
   <link rel="stylesheet" href="css/three.css">
@@ -34,18 +30,23 @@
         <li><a href="index.html"> <i class="fa-solid fa-house-chimney"></i> 
             <p>الرئيسية</p>
         </a></li>
+        <li><a href="/products.html"> 
+          <i class="fas fa-file-invoice icon" title="إضافة فاتورة جديدة"></i>
+          <p>اضافة فاتورة</p>
+        </a>
+      </li>
         <li>
             <a href="/workTypes.html">
                 <i class="fa-solid fa-briefcase"></i>
             <p> إدارة  الأعمال</p>
             </a>
         </li>
-        <li>
+        <!-- <li>
             <a href="backup.html">
                <i class="fa-regular fa-credit-card "></i>
                <p>النسخ الاحتايطي</p>
             </a>
-        </li>
+        </li> -->
         </ul>
         <div class="hover">
             <div class="sidebar">
@@ -104,16 +105,19 @@
 </div>
 </div>
 <!-- مربع حوار للمعلومات -->
-<div class="modal edit-box" id="info-modal">
+<div id="info-modal" class="overlay-none">
+
+<div class="modal edit-box">
   <h3>تفاصيل العمل</h3>
   <p id="infoDetails"></p>
   <div class="edit-buttons">
     <button onclick="closeModal('info-modal')">إغلاق</button>
   </div>
 </div>
-
-<!-- مربع حوار للتعديل -->
-<div class="modal  edit-box" id="edit-modal">
+</div>
+<!-- <!- <!- مربع حوار للتعديل -> -->
+<div id="edit-modal" class="overlay-none">
+<div class="modal  edit-box" >
   <h3>تعديل العمل</h3>
   <label>نوع القطعة<p>:</p></label>
   <input type="text" id="editPieceType">
@@ -124,9 +128,10 @@
     <button onclick="closeModal('edit-modal')">إلغاء</button>
   </div>
 </div>
-
-<!-- المربع الحواري للتسليم -->
-<div class="modal edit-box" id="delivery-modal">
+</div>
+<!-- <!- المربع الحواري للتسليم -> -->
+<div id="delivery-modal" class="overlay-none">
+<div class="modal edit-box">
   <h3> تسليم العمل</h3>
   <label for="deliveryDetails"> التفاصيل<p>:</p></label>
   <input id="deliveryDetails">
@@ -135,20 +140,47 @@
     <button id="cancelDelivery">إلغاء</button>
   </div>
 </div>
-
-<!-- مربع حوار للتأكيد على الحذف -->
-<div class="modal" id="delete-modal">
+</div>
+<!-- <!- مربع حوار للتأكيد على الحذف -> -->
+<div id="delete-modal" class="overlay-none">
+<div class="modal dialog-box">
     <h3>هل تريد حذف العمل؟</h3>
-    <div class="modal-buttons">
+    <div class="modal-buttons edit-buttons">
       <button id="confirmDelete">تأكيد</button>
       <button onclick="closeModal('delete-modal')">إلغاء</button>
     </div>
+  </div> 
   </div>
-  
-  <!-- رسالة نجاح الحذف -->
-  <div id="success-message" style="display: none; color: green; margin-top: 10px;">تم الحذف بنجاح!</div>
-  
+<!--  تحميل التفضيل عند تحميل الصفحة + اضهار الجز الجانبي-->
 <script>
+  document.getElementById("toggleSidebar").addEventListener("click", function() {
+var sidebar = document.querySelector(".sidebar");
+sidebar.classList.toggle("active"); // تبديل الفئة active لإظهار أو إخفاء الـ sidebar
+      });
+const toggleButton = document.getElementById('theme-toggle');
+
+// تحميل التفضيل عند تحميل الصفحة
+
+document.addEventListener('DOMContentLoaded', () => {
+const savedTheme = localStorage.getItem('theme') || 'light';
+document.body.setAttribute('data-theme', savedTheme);
+toggleButton.innerHTML = savedTheme === 'dark' ? '<i class="fa-solid fa-sun fa-fw"></i> <span> السمه</span>' : '<i class="fa-solid fa-moon fa-fw"></i> <span> السمه</span>';
+});
+
+// تغيير التفضيل عند الضغط على الزر
+toggleButton.addEventListener('click', () => {
+const currentTheme = document.body.getAttribute('data-theme');
+const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+document.body.setAttribute('data-theme', newTheme);
+                
+toggleButton.innerHTML = newTheme === 'dark' ? '<i class="fa-solid fa-sun fa-fw"></i>  <span> السمه</span>' : '<i class="fa-solid fa-moon fa-fw"></i>  <span> السمه</span>';
+localStorage.setItem('theme', newTheme);
+});
+</script>
+
+<script>
+let workIdToDelete = null; // لتخزين ID العمل الذي سيتم حذفه
+
 const API_URL = 'http://localhost:3000'; // عنوان الخادم
 // تحميل البيانات وعرضها في الجدول
 async function loadWorks(filter = '') {
@@ -172,7 +204,7 @@ async function loadWorks(filter = '') {
 
     row.innerHTML = `
           <td>
-        <span class="delete-icon" onclick="deleteWork(${work.id})"><i class="fa-regular fa-trash-can delete"></i></span>
+        <span class="delete-icon" onclick="openDeleteModal(${work.id})"><i class="fa-regular fa-trash-can delete"></i></span>
         <span class="info-icon" onclick="showInfo(${work.id})"><i class="fa-solid fa-circle-info"></i></span>
         <span class="edit-icon" onclick="openEditModal(${work.id}, '${work.piece_type}', '${work.reference_number}')"><i class="fa-solid fa-pen"></i></span>
       </td>
@@ -184,31 +216,33 @@ async function loadWorks(filter = '') {
     tableBody.appendChild(row);
   });
 }
-/* 
-        <span class="delete-icon" onclick="deleteWork(${work.id})"><i class="fa-solid fa-check"></i></span>
 
-        <button onclick="showInfo(${work.id})">معلومات</button>
-        <button onclick="openEditModal(${work.id}, '${work.piece_type}', '${work.reference_number}')">تعديل</button>
-        <button onclick="deleteWork(${work.id})">حذف</button>
-        <button onclick="openDeliveryModal(${work.id})">تسليم</button> */
-// إرسال البيانات إلى الخادم عند الحفظ
+// ارسال استلام الاعمال
 document.getElementById('work-form').addEventListener('submit', async (e) => {
   e.preventDefault();
   const pieceType = document.getElementById('pieceType').value;
   const referenceNumber = document.getElementById('referenceNumber').value;
 
-  await fetch(`${API_URL}/works`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      piece_type: pieceType,
-      reference_number: referenceNumber,
-      operation_type: 'استلام',
-      operation_date: new Date().toISOString(),
-    })
-  });
+  try {
+    await fetch(`${API_URL}/works`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        piece_type: pieceType,
+        reference_number: referenceNumber,
+        operation_type: 'استلام',
+        operation_date: new Date().toISOString(),
+      })
+    });
 
-  loadWorks();
+    loadWorks();
+
+    // عرض رسالة نجاح باستخدام Electron API
+    window.electronAPI.showDialogMessage('تم استلام العمل بنجاح!');
+  } catch (error) {
+    // عرض رسالة خطأ عند حدوث مشكلة
+    window.electronAPI.showDialogMessage('حدث خطأ أثناء استلام العمل. الرجاء المحاولة مرة أخرى.');
+  }
 });
 
 // إظهار المعلومات في مربع حوار
@@ -217,13 +251,13 @@ async function showInfo(workId) {
   const work = await response.json();
 
   const details = `
-    <strong>تاريخ الاستلام:</strong><span> ${new Date(work.operation_date).toLocaleDateString()}</span><br>
-    <strong>تاريخ التسليم:</strong><span> ${work.delivery_date ? new Date(work.delivery_date).toLocaleDateString() : 'لم يتم التسليم'}</span><br>
-    <strong>تفاصيل التسليم:</strong><span> ${work.delivery_details || 'لا توجد تفاصيل'}</span>
+    <strong>تاريخ الاستلام <p>:</p></strong><span> ${new Date(work.operation_date).toLocaleDateString()}</span><br>
+    <strong>تاريخ التسليم<p>:</p></strong><span> ${work.delivery_date ? new Date(work.delivery_date).toLocaleDateString() : 'لم يتم التسليم'}</span><br>
+    <strong>تفاصيل التسليم <p>:</p></strong><span> ${work.delivery_details || 'لا توجد تفاصيل'}</span>
   `;
 
   document.getElementById('infoDetails').innerHTML = details;
-  document.getElementById('info-modal').classList.add('active');
+  document.getElementById('info-modal').classList.add('overlay');
 }
 
 // فتح مربع التعديل
@@ -236,69 +270,97 @@ function openEditModal(workId, pieceType, referenceNumber) {
     const updatedPieceType = document.getElementById('editPieceType').value;
     const updatedReferenceNumber = document.getElementById('editReferenceNumber').value;
 
-    await fetch(`${API_URL}/edit_works/${workId}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        piece_type: updatedPieceType,
-        reference_number: updatedReferenceNumber,
-      })
+    try {
+      await fetch(`${API_URL}/edit_works/${workId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          piece_type: updatedPieceType,
+          reference_number: updatedReferenceNumber,
+        }),
+      });
 
-    });
+      closeModal('edit-modal');
+      loadWorks();
 
-    closeModal('edit-modal');
-    loadWorks();
+      // عرض رسالة نجاح باستخدام Electron API
+      window.electronAPI.showDialogMessage('تم التعديل بنجاح!');
+    } catch (error) {
+      // عرض رسالة خطأ عند فشل التعديل
+      window.electronAPI.showDialogMessage('حدث خطأ أثناء التعديل. الرجاء المحاولة مرة أخرى.');
+    }
   };
 
-  document.getElementById('edit-modal').classList.add('active');
+  document.getElementById('edit-modal').classList.add('overlay');
 }
 
 // فتح مربع الحوار لإدخال تفاصيل التسليم
-function openDeliveryModal(workId) {
+ function openDeliveryModal(workId) {
   const modal = document.getElementById('delivery-modal');
-  modal.classList.add('active');
+  modal.classList.add('overlay');
 
+  // عند تأكيد التسليم
   document.getElementById('confirmDelivery').onclick = async () => {
     const deliveryDetails = document.getElementById('deliveryDetails').value;
 
-    await fetch(`${API_URL}/works/${workId}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        operation_type: 'تم التسليم',
-        delivery_details: deliveryDetails,
-        delivery_date: new Date().toISOString(),
-      })
-    });
+    try {
+      await fetch(`${API_URL}/works/${workId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          operation_type: 'تم التسليم',
+          delivery_details: deliveryDetails,
+          delivery_date: new Date().toISOString(),
+        })
+      });
 
-    modal.classList.remove('active');
-    loadWorks();
+      modal.classList.remove('overlay');
+      loadWorks();
+
+      // عرض رسالة نجاح باستخدام Electron API
+      window.electronAPI.showDialogMessage('تم تسليم العمل بنجاح!');
+    } catch (error) {
+      // عرض رسالة خطأ عند فشل التسليم
+      window.electronAPI.showDialogMessage('حدث خطأ أثناء تسليم العمل. الرجاء المحاولة مرة أخرى.');
+    }
   };
 
+  // عند إلغاء التسليم
   document.getElementById('cancelDelivery').onclick = () => {
-    modal.classList.remove('active');
+    modal.classList.remove('overlay');
   };
 }
 
+// فتح مربع الحوار لتأكيد الحذف
+function openDeleteModal(workId) {
+  workIdToDelete = workId;
+  document.getElementById('delete-modal').classList.add('overlay');
+}
+
+// تنفيذ عملية الحذف بعد التأكيد
+document.getElementById('confirmDelete').onclick = async () => {
+  if (workIdToDelete !== null) {
+    await fetch(`${API_URL}/works/${workIdToDelete}`, { method: 'DELETE' });
+    workIdToDelete = null; // إعادة تعيين القيمة
+    closeModal('delete-modal');
+    loadWorks();
+    // showSuccessMessage(); // عرض رسالة النجاح
+    window.electronAPI.showDialogMessage('تم حذف العمل بنجاح  '); // استبدال alert بـ showDialogMessage
+
+  }
+};
 
 // إغلاق مربع حوار
 function closeModal(modalId) {
-  document.getElementById(modalId).classList.remove('active');
-}
-
-// حذف صف
-async function deleteWork(workId) {
-  await fetch(`${API_URL}/works/${workId}`, { method: 'DELETE' });
-  loadWorks();
+  document.getElementById(modalId).classList.remove('overlay');
 }
 
 // عند تحميل الصفحة
 loadWorks();
 </script>
+
+<!-- // تطبيق الفلترة إذا كان هناك بحث -->
 <script>
-
-// تطبيق الفلترة إذا كان هناك بحث
-
   // البحث عند إدخال نص في الحقل
 function toggleSearch() {
   const searchInput = document.getElementById('searchInput');
