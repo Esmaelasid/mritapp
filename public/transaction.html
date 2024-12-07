@@ -159,7 +159,7 @@
 </script>
 
 <!-- ارسال العمليات -->
-    <script>
+    <!-- <script>
         document.getElementById('transactionForm').addEventListener('submit', function(event) {
             event.preventDefault();
             
@@ -193,7 +193,50 @@
                 window.electronAPI.showDialogMessage('حدث خطأ أثناء الاتصال بالخادم.');
             });
         });
-    </script>
+    </script> -->
 
+    <script>
+        document.getElementById('transactionForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+    
+            const name = document.getElementById('name').value.trim();
+            const amount = document.getElementById('amount').value.trim();
+            const details = document.getElementById('details').value.trim();
+            const transactionType = document.querySelector('input[name="transactionType"]:checked').value;
+    
+            fetch('/transaction', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: name,
+                    amount: amount,
+                    details: details,
+                    transactionType: transactionType
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then((data) => {
+                        throw new Error(data.message || 'حدث خطأ غير متوقع');
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    window.electronAPI.showDialogMessage(data.message || 'تم حفظ العملية بنجاح!');
+                } else {
+                    window.electronAPI.showDialogMessage(data.message || 'حدث خطأ أثناء حفظ العملية.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                window.electronAPI.showDialogMessage(error.message || 'حدث خطأ أثناء الاتصال بالخادم.');
+            });
+        });
+    </script>
+    
 </body>
 </html>

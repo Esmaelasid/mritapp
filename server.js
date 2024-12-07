@@ -709,7 +709,7 @@ app.get("/api/get-client-balances", (req, res) => {
 /* ====================START TRANSACTION==========================
                         إضافة أو تسديد مبلغ
 ============================================================*/
-app.post("/transaction", (req, res) => {
+/* app.post("/transaction", (req, res) => {
   const { name, amount, details, transactionType } = req.body;
 
   if (!name || !amount || !transactionType) {
@@ -727,7 +727,48 @@ app.post("/transaction", (req, res) => {
     }
     res.json({ success: true, message: "تم حفظ العملية بنجاح!" });
   });
+}); */
+/* ====================START TRANSACTION==========================
+                        إضافة أو تسديد مبلغ
+============================================================*/
+app.post("/transaction", (req, res) => {
+  const { name, amount, details, transactionType } = req.body;
+
+  if (!name || !amount || !transactionType) {
+    return res
+      .status(400)
+      .json({ success: false, message: "جميع الحقول مطلوبة" });
+  }
+
+  // تحقق من وجود العميل في جدول العملاء
+  const checkClientQuery = `SELECT id FROM clients WHERE name = ? COLLATE NOCASE`;
+  db.get(checkClientQuery, [name], (err, client) => {
+    if (err) {
+      return res
+        .status(500)
+        .json({ success: false, message: "حدث خطأ أثناء التحقق من العميل" });
+    }
+
+    if (!client) {
+      // إذا لم يكن العميل موجودًا
+      return res
+        .status(404)
+        .json({ success: false, message: "اسم العميل غير موجود في قاعدة البيانات" });
+    }
+
+    // إذا كان العميل موجودًا، أضف العملية
+    const query = `INSERT INTO transactions (client_name, amount, details, transaction_type) VALUES (?, ?, ?, ?)`;
+    db.run(query, [name, amount, details, transactionType], function (err) {
+      if (err) {
+        return res
+          .status(500)
+          .json({ success: false, message: "حدث خطأ أثناء حفظ العملية" });
+      }
+      res.json({ success: true, message: "تم حفظ العملية بنجاح!" });
+    });
+  });
 });
+
 //  ====================END TRANSACTION==========================
 /* ===================START SEARCH===============================
                      البحث عن عميل
