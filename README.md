@@ -6,3 +6,7 @@
 
 ## Add a financial transaction
 ![HOME](astaas/process.png)
+
+#### Search for a customer account
+
+![HOME](astaas/Search.png)
