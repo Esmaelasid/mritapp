@@ -1,5 +1,8 @@
 # mritapp
 ![HOME](astaas/mrithome.png)
 
-## Clients.png
+## Customer management
 ![HOME](astaas/Clients.png)
+
+## Add a financial transaction
+![HOME](astaas/process.png)
